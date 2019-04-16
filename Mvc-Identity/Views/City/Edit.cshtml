@@ -1,0 +1,40 @@
+﻿@model City
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<br />
+<h1 class="offset-3">Edit @Model.Name</h1>
+<hr />
+<br />
+
+<form class="offset-3 marginBottom60 col-2" method="post" asp-action="Edit" asp-controller="City" asp-route-id="@Model.Id">
+
+    <label asp-for="Name"></label>
+    <br />
+    <input class="col-12" asp-for="Name" value="@Model.Name" placeholder="Name.." />
+    <hr />
+    <label asp-for="Population"></label>
+    <br />
+    <input class="col-12" asp-for="Population" value="@Model.Population" placeholder="Population..ish" />
+    <hr />
+    @*@if (User.IsInRole("Admin"))
+        {*@
+    @if (Model.People.Count != 0)
+    {
+
+        <Select asp-for="People" asp-items="@(new SelectList(Model.People,"Id", "Name"))">
+            <option>Please select one</option>
+        </Select>
+    }
+    @*}*@
+
+    <input class="btn btn-success" type="submit" value="Submit" />
+    <hr />
+</form>
+
+<tr>
+    <td>
+        <a class="btn btn-primary offset-3" asp-action="Index" asp-controller="City">Return</a>
+    </td>
+</tr>

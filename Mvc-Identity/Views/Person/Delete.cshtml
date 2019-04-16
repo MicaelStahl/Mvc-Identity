@@ -1,0 +1,50 @@
+﻿@model Person
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<br />
+<h1 class="offset-3">Delete @Model.Name</h1>
+<hr />
+<br />
+
+<form asp-action="Delete" asp-controller="Person" asp-route-id="@Model.Id">
+    <table class="table-active offset-2 col-6 marginBottom60">
+        <tr class="row main-tr">
+            <th class="offset-1 col-2">Name</th>
+            <th class="col-1">Age</th>
+            <th class="offset-1 col-1">Gender</th>
+            <th class="offset-1 col-2">Phonenumber</th>
+            <th class="offset-1 col-2">City</th>
+
+        </tr>
+        <tr class="row main-tr">
+            <td class="border-bottom border-dark col-11 AlignCenter"></td>
+            <td class="offset-1 col-2">@Model.Name</td>
+            <td class="col-1">@Model.Age</td>
+            <td class="offset-1 col-1">@Model.Gender</td>
+            <td class="offset-1 col-2">@Model.PhoneNumber</td>
+            @if (Model.City != null)
+            {
+                <td class="offset-1 col-2">@Model.City</td>
+            }
+            else
+            {
+                <td class="offset-1 col-2">Homeless</td>
+            }
+            <td class="col-12"><hr /></td>
+        </tr>
+        <tr class="row main-tr">
+            <td class="AlignCenter"><h4>Are you sure you want to delete @Model.Name?</h4></td>
+            <td class="border-bottom border-dark col-11 AlignCenter"></td>
+            <td class="AlignCenter">
+
+                <input type="submit" class="btn btn-danger" value="Terminate" />
+
+                <a class="btn btn-primary" asp-action="Index" asp-controller="Person">
+                    Return
+                </a>
+            </td>
+        </tr>
+    </table>
+</form>

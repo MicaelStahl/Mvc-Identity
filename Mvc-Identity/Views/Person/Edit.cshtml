@@ -1,0 +1,36 @@
+﻿@model Person
+@{
+    ViewData["Title"] = "Edit";
+}
+<br />
+<h1 class="offset-3">Edit @Model.Name</h1>
+<hr />
+<br />
+
+<form class="offset-3 col-2 marginBottom60" method="post" asp-action="Edit" asp-controller="Person" asp-route-id="@Model.Id">
+
+    <label asp-for="Name"></label>
+    <br />
+    <input class="col-12" asp-for="Name" value="@Model.Name" placeholder="Name.." />
+    <hr />
+    <label asp-for="Age"></label>
+    <br />
+    <input class="col-12" asp-for="Age" value="@Model.Age" placeholder="Age.. ish" />
+    <hr />
+    <label class="col-3">Man</label>
+    <label class="col-4">Woman</label>
+    <label class="col-4">Llama</label>
+    <br />
+    <input type="radio" asp-for="Gender" value="@Model.Gender" class="col-3" />
+    <input type="radio" asp-for="Gender" value="@Model.Gender" class="col-4" />
+    <input type="radio" asp-for="Gender" value="@Model.Gender" class="col-4" />
+    <hr />
+    <label asp-for="PhoneNumber"></label>
+    <br />
+    <input class="col-12" asp-for="PhoneNumber" value="@Model.PhoneNumber" placeholder="Phonenumber.." />
+    <hr />
+
+    <input class="btn btn-success" type="submit" value="Submit" />
+    <a class="btn btn-primary offset-1" asp-action="Index" asp-controller="Person">Return</a>
+
+</form>

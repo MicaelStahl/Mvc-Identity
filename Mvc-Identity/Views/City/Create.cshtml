@@ -1,0 +1,26 @@
+﻿@model City
+@{
+    ViewData["Title"] = "Create";
+}
+
+<br />
+<h1 class="offset-3">Create new city.. Pog</h1>
+<hr />
+<br />
+
+<form class="offset-3" method="post" asp-action="Create" asp-controller="City">
+
+    <label asp-for="Name"></label>
+    <br />
+    <input asp-for="Name" placeholder="Name.." />
+    <br />
+    <br />
+    <label asp-for="Population"></label>
+    <br />
+    <input asp-for="Population" placeholder="Population..ish" />
+    <br />
+    <br />
+
+    <input class="btn btn-success" type="submit" value="Submit" />
+
+</form>

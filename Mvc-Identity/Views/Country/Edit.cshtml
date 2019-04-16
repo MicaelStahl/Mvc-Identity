@@ -1,0 +1,29 @@
+﻿@model Country
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1 class="offset-3">Edit @Model.Name</h1>
+
+<form class="offset-3 marginBottom60" method="post" asp-action="Edit" asp-controller="Country" asp-route-id="@Model.Id">
+
+    <label asp-for="Name"></label>
+    <br />
+    <input asp-for="Name" value="@Model.Name" placeholder="Name.." />
+    <br />
+    <br />
+    <label asp-for="Population"></label>
+    <br />
+    <input asp-for="Population" value="@Model.Population" placeholder="Population..ish" />
+    <br />
+    <br />
+
+    <input class="btn btn-success" type="submit" value="Submit" />
+
+</form>
+
+<tr>
+    <td>
+        <a class="btn btn-primary offset-3" asp-action="Index" asp-controller="Country">Return</a>
+    </td>
+</tr>

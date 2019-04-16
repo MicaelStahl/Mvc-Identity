@@ -1,0 +1,27 @@
+﻿@model City
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<br />
+<h1 class="offset-3">Delete @Model.Name</h1>
+<hr />
+<br />
+<form asp-action="Delete" asp-controller="City" asp-route-id="@Model.Id">
+    <table class="table-active offset-2 col-4 marginBottom60">
+        <tr class="row main-tr">
+            <td>@Model.Name</td>
+            <td>@Model.Population</td>
+            <td class="col-12"><hr /></td>
+        </tr>
+        <tr class="row main-tr">
+            <td><h4>Are you sure you want to delete @Model.Name?</h4></td>
+            <td>
+                <input type="submit" class="btn btn-danger" value="Terminate" />
+                <a class="btn btn-primary" asp-action="Index" asp-controller="City">
+                    Return
+                </a>
+            </td>
+        </tr>
+    </table>
+</form>

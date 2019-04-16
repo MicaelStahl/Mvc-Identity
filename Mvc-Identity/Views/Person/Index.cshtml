@@ -1,0 +1,58 @@
+﻿@model List<Person>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<br />
+<h1 class="offset-2">Index</h1>
+<hr />
+<br />
+
+<table class="table-active offset-2 col-8 marginBottom60">
+    <tr class="row main-tr">
+        <th class="offset-1 col-2">Name</th>
+        <th class=" col-1">Age</th>
+        <th class=" col-1">Gender</th>
+        <th class="offset-1 col-2">Phonenumber</th>
+        <th class="offset-1 col-3">Options</th>
+    </tr>
+    @if (Model.Count != 0)
+    {
+
+        @foreach (var item in Model)
+        {
+            <tr class="row main-tr">
+                <td class="border-bottom border-dark col-10 AlignCenter"></td>
+                <td class="offset-1 col-2">@item.Name</td>
+                <td class=" col-1">@item.Age</td>
+                <td class=" col-1">@item.Gender</td>
+                <td class="offset-1 col-2">@item.PhoneNumber</td>
+                <td class="offset-1 col-3">
+                    <a class="btn btn-warning" asp-action="Edit" asp-controller="Person" asp-route-id="@item.Id">
+                        Edit
+                    </a>
+                    <a class="btn btn-primary" asp-action="Details" asp-controller="Person" asp-route-id="@item.Id">
+                        Details
+                    </a>
+                    <a class="btn btn-danger" asp-action="Delete" asp-controller="Person" asp-route-id="@item.Id">
+                        Remove
+                    </a>
+                </td>
+            </tr>
+        }
+    }
+    else
+    {
+        <tr>
+            <td><h5 class="col-12">I currently don't hold any people. please add some :(</h5></td>
+        </tr>
+    }
+</table>
+
+<tr>
+    <td>
+        <a class="btn btn-success offset-1 floatLeft" asp-action="Create" asp-controller="Person">
+            Create a new person
+        </a>
+    </td>
+</tr>

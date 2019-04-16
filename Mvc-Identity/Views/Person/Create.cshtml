@@ -1,0 +1,40 @@
+﻿@model Person
+@{
+    ViewData["Title"] = "Create";
+}
+
+<br />
+<h1 class="offset-3">Create new person.. Pog</h1>
+<hr />
+<br />
+
+<form class="offset-3 col-2" method="post" asp-action="Create" asp-controller="Person">
+
+    <label asp-for="Name"></label>
+    <br />
+    <input asp-for="Name" placeholder="Name.." />
+    <hr />
+    <label asp-for="Age"></label>
+    <br />
+    <input asp-for="Age" placeholder="Age.. ish" />
+    <hr />
+    <div id="Equality" class="row">
+        <label class="col-3">Man</label>
+        <label class="col-3">Woman</label>
+        <label class="col-3">Llama</label>
+    </div>
+    <br />
+    <div class="row">
+        <input type="radio" asp-for="Gender" value="Man" class="col-3" />
+        <input type="radio" asp-for="Gender" value="Woman" class="col-3" />
+        <input type="radio" asp-for="Gender" value="Llama" class="col-3" />
+    </div>
+    <hr />
+    <label asp-for="PhoneNumber"></label>
+    <br />
+    <input asp-for="PhoneNumber" placeholder="Phonenumber" />
+    <hr />
+
+    <input class="btn btn-success" type="submit" value="Submit" />
+
+</form>
