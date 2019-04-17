@@ -10,6 +10,8 @@ namespace Mvc_Identity.Interfaces
     {
         List<Country> AllCountries();
 
+        bool AddCitiesToCountry(int? id, List<int> cityId);
+
         Country CreateCountry(Country country);
 
         Country EditCountry(Country country);
@@ -18,8 +20,10 @@ namespace Mvc_Identity.Interfaces
 
         Country FindCountry(int? id);
 
-        //List<Country> SortList(int? id, char choice);
+        AddCitiesToCountryVM FindCountryAndAllRogueCities(int? id);
 
-        //bool FilterList(string filter);
+        Country FindCountryWithEverything(int? id);
+
+
     }
 }

@@ -13,7 +13,8 @@
         <th class="offset-1 col-2">Name</th>
         <th class=" col-1">Age</th>
         <th class=" col-1">Gender</th>
-        <th class="offset-1 col-2">Phonenumber</th>
+        <th class=" col-2">Phonenumber</th>
+        <th class="col-1">City</th>
         <th class="offset-1 col-3">Options</th>
     </tr>
     @if (Model.Count != 0)
@@ -22,11 +23,20 @@
         @foreach (var item in Model)
         {
             <tr class="row main-tr">
-                <td class="border-bottom border-dark col-10 AlignCenter"></td>
+                <td class="border-bottom border-dark col-11 AlignCenter"></td>
                 <td class="offset-1 col-2">@item.Name</td>
                 <td class=" col-1">@item.Age</td>
                 <td class=" col-1">@item.Gender</td>
-                <td class="offset-1 col-2">@item.PhoneNumber</td>
+                <td class=" col-2">@item.PhoneNumber</td>
+                @if (@item.City != null)
+                {
+
+                <td class="col-1">@item.City.Name</td>
+                }
+                else
+                {
+                    <td class="col-1">Homeless</td>
+                }
                 <td class="offset-1 col-3">
                     <a class="btn btn-warning" asp-action="Edit" asp-controller="Person" asp-route-id="@item.Id">
                         Edit

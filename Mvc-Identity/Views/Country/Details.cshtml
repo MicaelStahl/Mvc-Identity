@@ -11,7 +11,7 @@
     <tr class="row main-tr">
         <th class="offset-1 col-3">Name</th>
         <th class="offset-1 col-3">Population</th>
-        @if (Model.Cities.Count == 1)
+        @if (Model.Cities.Count <= 1)
         {
             <th class="offset-1 col-3">City</th>
         }
@@ -24,19 +24,33 @@
         <td class="border-bottom border-dark col-10 AlignCenter"></td>
         <td class="offset-1 col-3">@Model.Name</td>
         <td class="offset-1 col-3">@Model.Population</td>
-        <td>
+        <td class="col-3">
             <table class="table-active">
                 @if (Model.Cities.Count != 0)
+                {
+                    foreach (var item in Model.Cities)
                     {
-                        foreach (var item in Model.Cities)
-                        {
-                            <tr>
-                                <td>@Model.Name</td>
-                                <td>@Model.Population</td>
-                            </tr>
-                        }
+                        <tr>
+                            <td class="offset-1 col-4">@item.Name</td>
+                            <td class="offset-1 col-4">@item.Population</td>
+                        </tr>
                     }
+                }
+                else
+                {
+                    <tr>
+                        <td class="offset-1 col-4">Lonely</td>
+                    </tr>
+                }
             </table>
         </td>
     </tr>
 </table>
+
+<tr>
+    <td>
+        <a class="btn btn-primary offset-2" asp-action="Index" asp-controller="Country">
+            Return
+        </a>
+    </td>
+</tr>

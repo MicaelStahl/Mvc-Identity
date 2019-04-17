@@ -1,4 +1,5 @@
-﻿using Mvc_Identity.DataBase;
+﻿using Microsoft.EntityFrameworkCore;
+using Mvc_Identity.DataBase;
 using Mvc_Identity.Interfaces;
 using Mvc_Identity.ViewModels;
 using System;
@@ -19,7 +20,13 @@ namespace Mvc_Identity.Models
 
         public List<Person> AllPeople()
         {
-            return _db.People.ToList();
+            var people = _db.People
+                .Include(x => x.City)
+                .ThenInclude(x => x.Country)
+                .Where(x => x.Id == x.Id)
+                .ToList();
+
+            return people;
         }
 
         public Person CreatePerson(Person person)
@@ -99,6 +106,26 @@ namespace Mvc_Identity.Models
             {
                 return person;
             }
+            return null;
+        }
+
+        public Person FindPersonWithEverything(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return null;
+            }
+
+            var person = _db.People
+                .Include(x => x.City)
+                .ThenInclude(x=>x.Country)
+                .SingleOrDefault(x => x.Id == id);
+
+            if (person != null)
+            {
+                return person;
+            }
+
             return null;
         }
     }

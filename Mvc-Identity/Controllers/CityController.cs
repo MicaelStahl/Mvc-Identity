@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Mvc_Identity.Interfaces;
 using Mvc_Identity.ViewModels;
@@ -10,6 +11,9 @@ namespace Mvc_Identity.Controllers
 {
     public class CityController : Controller
     {
+
+        private const string SessionKeyAddPeople = "_AddPeople";
+
         private readonly ICityRepository _city;
 
         public CityController(ICityRepository city)
@@ -31,22 +35,28 @@ namespace Mvc_Identity.Controllers
 
                 cityVM = _city.FindCityAndAllHomeless(id);
 
-                if (cityVM.City != null || cityVM.People.Count != 0)
+                if (cityVM.City != null)
                 {
                     return View(cityVM);
                 }
+                return NotFound();
             }
-
-            return View();
+            return BadRequest();
         }
         [HttpPost]
-        public IActionResult AddPeopleToCity(int? cityId, List<int> personId)
+        public IActionResult AddPeopleToCity(int? cityId, List<int> studentId)
         {
-            if (cityId != null || cityId != 0 || personId.Count != 0)
+            if (cityId != null || cityId != 0)
             {
-                var city = _city.AddPeopleToCity(cityId, personId);
+                if (studentId.Count != 0)
+                {
+                    var boolean = _city.AddPeopleToCity(cityId, studentId);
 
-                return RedirectToAction(nameof(Details), "City", new { id = cityId });
+                    if (boolean)
+                    {
+                        return RedirectToAction(nameof(Details), "City", new { id = cityId });
+                    }
+                }
             }
             return BadRequest();
         }
@@ -76,7 +86,7 @@ namespace Mvc_Identity.Controllers
         {
             if (id != null || id != 0)
             {
-                var city = _city.FindCity(id);
+                var city = _city.FindCityWithEverything(id);
 
                 if (city != null)
                 {

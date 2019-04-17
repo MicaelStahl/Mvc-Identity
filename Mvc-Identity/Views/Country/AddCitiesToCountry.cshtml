@@ -1,0 +1,27 @@
+﻿@model AddCitiesToCountryVM
+@{
+    ViewData["Title"] = "AddCitiesToCountry";
+}
+
+<br />
+<h1 class="offset-2">Add Cities to @Model.Country.Name</h1>
+<hr />
+<br />
+
+<form class="offset-2" asp-action="AddCitiesToCountry" asp-controller="Country" asp-route-countryId="@Model.Country.Id">
+    <ul class="list-unstyled">
+        @foreach (var item in Model.Cities)
+        {
+            <li>
+                <input type="checkbox" name="CityId" value="@item.Id" />
+                <label value="@item.Id">@item.Name @item.Population</label>
+                <input type="hidden" value="@item.Id" />
+                @*<input type="hidden" value="@item.Name" />*@
+            </li>
+        }
+    </ul>
+    <input type="submit" class="btn btn-success" value="Submit" />
+    <a class="btn btn-primary" asp-action="Details" asp-controller="Country" asp-route-countryId="@Model.Country.Id">
+        Return
+    </a>
+</form>

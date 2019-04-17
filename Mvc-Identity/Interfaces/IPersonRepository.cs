@@ -17,5 +17,7 @@ namespace Mvc_Identity.Interfaces
         bool DeletePerson(int? id);
 
         Person FindPerson(int? id);
+
+        Person FindPersonWithEverything(int? id);
     }
 }

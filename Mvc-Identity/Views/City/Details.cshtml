@@ -8,34 +8,34 @@
 <hr />
 <br />
 
-<table class="table-active offset-2 col-8 marginBottom60">
+<table class="table-active offset-1 col-10 marginBottom60">
     <tr class="row main-tr">
-        <th class="col-2">Name</th>
+        <th class="offset-1 col-2">Name</th>
         <th class="col-2">Population</th>
-        <th class="col-3">Country</th>
+        <th class="col-2">Country</th>
         @if (Model.People.Count <= 1)
         {
-            <th class="offset-1 col-4">Person</th>
+            <th class="offset-1 col-4">Resident</th>
         }
         else if (Model.People.Count > 1)
         {
-            <th class="offset-1 col-4">People</th>
+            <th class="offset-1 col-4">Residents</th>
         }
     </tr>
     <tr class="row main-tr">
         <td class="border-bottom border-dark col-11 AlignCenter"></td>
-        <td class="col-2">@Model.Name</td>
+        <td class="offset-1 col-2">@Model.Name</td>
         <td class="col-2">@Model.Population</td>
 
         @if (Model.Country != null)
         {
-            <td class="col-3">Model.Country</td>
+            <td class="col-2">Model.Country</td>
         }
         else
         {
-            <td class="col-3">Country-less</td>
+            <td class="col-2">Country-less</td>
         }
-        <td>
+        <td class="col-4">
             <table class="table-active">
 
                 @if (Model.People.Count != 0)
@@ -43,20 +43,17 @@
                     foreach (var item in Model.People)
                     {
                         <tr class="offset-1 col-4">
-                            <td>@item.Name</td>
-                            <td>@item.Age</td>
-                            <td>@item.Gender</td>
-                            <td>@item.PhoneNumber</td>
+                            <td class="offset-1 col-2">@item.Name</td>
+                            <td class="offset-1 col-2">@item.Age</td>
+                            <td class="offset-1 col-2">@item.Gender</td>
+                            <td class="offset-1 col-2">@item.PhoneNumber</td>
                         </tr>
                     }
                 }
                 else
                 {
                     <tr class="offset-1 col-4">
-                        <td>Abandoned</td>
-                        <td>Abandoned</td>
-                        <td>Abandoned</td>
-                        <td>Abandoned</td>
+                        <td>GhostTown</td>
                     </tr>
                 }
             </table>

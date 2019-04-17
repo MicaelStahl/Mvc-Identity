@@ -10,15 +10,17 @@ namespace Mvc_Identity.Interfaces
     {
         List<City> AllCities();
 
+        bool AddPeopleToCity(int? cityId, List<int> studentId);
+
         City CreateCity(City city);
 
         City EditCity(City city);
 
-        City AddPeopleToCity(int? cityId, List<int> studentId);
-
         bool DeleteCity(int? id);
 
         City FindCity(int? id);
+
+        City FindCityWithEverything(int? id);
 
         AddPeopleToCityVM FindCityAndAllHomeless(int? id);
 

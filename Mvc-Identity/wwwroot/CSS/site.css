@@ -20,6 +20,11 @@
     float: left;
 }
 
+.floatRight {
+    clear: both;
+    float: right;
+}
+
 .marginBottom5 {
     margin-bottom: 5px;
 }

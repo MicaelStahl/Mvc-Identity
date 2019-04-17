@@ -25,6 +25,44 @@ namespace Mvc_Identity.Controllers
 
         [HttpGet]
         [AutoValidateAntiforgeryToken]
+        public IActionResult AddCitiesToCountry(int? id)
+        {
+            if (id != null || id != 0)
+            {
+                var countryVM = new AddCitiesToCountryVM();
+
+                countryVM = _country.FindCountryAndAllRogueCities(id);
+
+                if (countryVM.Country != null)
+                {
+                    return View(countryVM);
+                }
+                return NotFound();
+            }
+            return BadRequest();
+        }
+        [HttpPost]
+        [AutoValidateAntiforgeryToken]
+        public IActionResult AddCitiesToCountry(int? countryId, List<int> cityId)
+        {
+            if (countryId != null || countryId != 0)
+            {
+                if (cityId.Count != 0)
+                {
+                    var boolean = _country.AddCitiesToCountry(countryId, cityId);
+
+                    if (boolean)
+                    {
+                        return RedirectToAction(nameof(Details), "Country", new { id = countryId });
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return BadRequest();
+        }
+
+        [HttpGet]
+        [AutoValidateAntiforgeryToken]
         public IActionResult Create()
         {
             return View();
@@ -50,7 +88,7 @@ namespace Mvc_Identity.Controllers
         {
             if (id != null || id != 0)
             {
-                var country = _country.FindCountry(id);
+                var country = _country.FindCountryWithEverything(id);
 
                 if (country != null)
                 {

@@ -10,7 +10,7 @@
 
 <table class="table-active offset-2 col-8 marginBottom60">
     <tr class="row main-tr">
-        <th class="offset-1 col-3">Name</th>
+        <th class="offset-1 col-2">Name</th>
         <th class="offset-1 col-3">Population</th>
         <th class="offset-1 col-3">Options</th>
     </tr>
@@ -21,9 +21,12 @@
         {
             <tr class="row main-tr">
                 <td class="border-bottom border-dark col-10 AlignCenter"></td>
-                <td class="offset-1 col-3">@item.Name</td>
+                <td class="offset-1 col-2">@item.Name</td>
                 <td class="offset-1 col-3">@item.Population</td>
-                <td class="offset-1 col-3">
+                <td class="offset-1 col-4">
+                    <a class="btn btn-success" asp-action="AddCitiesToCountry" asp-controller="Country" asp-route-id="@item.Id">
+                        Add Cities
+                    </a>
                     <a class="btn btn-warning" asp-action="Edit" asp-controller="Country" asp-route-id="@item.Id">
                         Edit
                     </a>

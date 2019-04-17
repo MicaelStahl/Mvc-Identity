@@ -20,7 +20,14 @@ namespace Mvc_Identity.Models
 
         public List<City> AllCities()
         {
-            return _db.Cities.ToList();
+            var cities = _db.Cities
+                .Include(x => x.People)
+                .ThenInclude(x => x.City)
+                .Include(x => x.Country)
+                .Where(x => x.Id == x.Id)
+                .ToList();
+
+            return cities;
         }
 
         public City CreateCity(City city)
@@ -100,6 +107,28 @@ namespace Mvc_Identity.Models
             return null;
         }
 
+        public City FindCityWithEverything(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return null;
+            }
+
+            var city = _db.Cities
+                .Include(x => x.People)
+                .ThenInclude(x=>x.City)
+                .Include(x => x.Country)
+                .ThenInclude(x=>x.Cities)
+                .SingleOrDefault(x => x.Id == id);
+
+            if (city != null)
+            {
+                return city;
+            }
+
+            return null;
+        }
+
         public AddPeopleToCityVM FindCityAndAllHomeless(int? id)
         {
             if (id == null || id == 0)
@@ -111,17 +140,19 @@ namespace Mvc_Identity.Models
 
             cityVM.City = _db.Cities.SingleOrDefault(x => x.Id == id);
 
-            var allPeople = _db.People.Where(x => x.Id == x.Id).ToList();
+            var allPeople = _db.People
+                .Include(x=>x.City)
+                .Where(x => x.Id == x.Id).ToList();
 
             foreach (var item in allPeople)
             {
-                if (item.City.Id != id)
+                if (item.City == null)
                 {
-                    cityVM.People.Add(item);
+                    cityVM.Homeless.Add(item);
                 }
             }
 
-            if (cityVM.City != null || cityVM.People.Count != 0)
+            if (cityVM.City != null || cityVM.Residents.Count != 0)
             {
                 return cityVM;
             }
@@ -129,12 +160,17 @@ namespace Mvc_Identity.Models
             return null;
         }
 
-        public City AddPeopleToCity(int? cityId, List<int> studentId)
+        public bool AddPeopleToCity(int? cityId, List<int> studentId)
         {
-            if (cityId == null || cityId == 0 || studentId.Count == 0)
+            if (cityId == null || cityId == 0)
             {
-                return null;
+                return false;
             }
+            if (studentId.Count == 0)
+            {
+                return false;
+            }
+
             var city = _db.Cities.SingleOrDefault(x => x.Id == cityId);
 
             if (city != null)
@@ -145,13 +181,16 @@ namespace Mvc_Identity.Models
 
                     if (student != null)
                     {
+                        student.City = city;
                         city.People.Add(student);
                     }
                 }
-                return city;
+                _db.SaveChanges();
+
+                return true;
             }
 
-            return null;
+            return false;
         }
     }
 }

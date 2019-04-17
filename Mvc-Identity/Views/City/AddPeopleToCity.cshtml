@@ -1,0 +1,23 @@
+﻿@model AddPeopleToCityVM
+@{
+    ViewData["Title"] = "AddPeopleToCity";
+}
+<br />
+<h1 class="offset-2">Add People To City</h1>
+<hr />
+<br />
+
+<form class="offset-2" asp-action="AddPeopleToCity" asp-controller="City" asp-route-cityId="@Model.City.Id" method="post">
+        <ul class="list-unstyled">
+            @foreach (var item in Model.Homeless)
+            {
+                <li>
+                    <input type="checkbox" name="StudentId" value="@item.Id" />
+                    <label value="@item.Id">@item.Name @item.Age @item.Gender @item.PhoneNumber</label>
+                    <input type="hidden" value="@item.Id" />
+                    <input type="hidden" value="@item.Name" />
+                </li>
+            }
+        </ul>
+        <input class="btn btn-success" type="submit" value="Submit" />
+    </form>

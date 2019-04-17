@@ -1,4 +1,5 @@
-﻿using Mvc_Identity.DataBase;
+﻿using Microsoft.EntityFrameworkCore;
+using Mvc_Identity.DataBase;
 using Mvc_Identity.Interfaces;
 using Mvc_Identity.ViewModels;
 using System;
@@ -19,7 +20,47 @@ namespace Mvc_Identity.Models
 
         public List<Country> AllCountries()
         {
-            return _db.Countries.ToList();
+            var countries = _db.Countries
+                .Include(x => x.Cities)
+                .ThenInclude(x => x.People)
+                .ThenInclude(x => x.City)
+                .Where(x => x.Id == x.Id)
+                .ToList();
+
+            return countries;
+        }
+
+        public bool AddCitiesToCountry(int? id, List<int> cityId)
+        {
+            if (id == null || id == 0)
+            {
+                return false;
+            }
+            if (cityId.Count == 0)
+            {
+                return false;
+            }
+
+            var country = _db.Countries.SingleOrDefault(x => x.Id == id);
+
+            if (country != null)
+            {
+                foreach (var item in cityId)
+                {
+                    var city = _db.Cities.SingleOrDefault(x => x.Id == item);
+
+                    if (city != null)
+                    {
+                        city.Country = country;
+                        country.Cities.Add(city);
+                    }
+                }
+                _db.SaveChanges();
+
+                return true;
+            }
+
+            return false;
         }
 
         public Country CreateCountry(Country country)
@@ -76,6 +117,58 @@ namespace Mvc_Identity.Models
                 return null;
             }
             return country;
+        }
+
+        public Country FindCountryWithEverything(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return null;
+            }
+
+            var city = _db.Countries
+                .Include(x => x.Cities)
+                .ThenInclude(x => x.People)
+                .ThenInclude(x=>x.City)
+                .SingleOrDefault(x => x.Id == id);
+
+            if (city != null)
+            {
+                return city;
+            }
+
+            return null;
+        }
+
+        public AddCitiesToCountryVM FindCountryAndAllRogueCities(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return null;
+            }
+
+            var countryVM = new AddCitiesToCountryVM();
+
+            countryVM.Country = _db.Countries.SingleOrDefault(x => x.Id == id);
+
+            var allCities = _db.Cities.Where(x => x.Id == x.Id).ToList();
+
+            if (countryVM.Country != null)
+            {
+                if (allCities.Count != 0)
+                {
+                    foreach (var item in allCities)
+                    {
+                        if (item.Country == null)
+                        {
+                            countryVM.Cities.Add(item);
+                        }
+                    }
+                    return countryVM;
+                }
+            }
+
+            return null;
         }
 
         public bool DeleteCountry(int? id)
