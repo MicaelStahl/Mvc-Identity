@@ -1,0 +1,18 @@
+﻿@model LoginVM
+@{
+    ViewData["Title"] = "SignIn";
+}
+<br />
+<h1 class="offset-2">Sign In</h1>
+<hr />
+<br />
+
+<form class="offset-2" asp-action="SignIn" asp-controller="Account">
+
+    <label asp-for="UserName"></label>
+    <input asp-for="UserName" placeholder="Username.." />
+
+    <label asp-for="Password"></label>
+    <input asp-for="Password" placeholder="Password.." />
+
+</form>

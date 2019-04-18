@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,6 +32,32 @@ namespace Mvc_Identity
             services.AddDbContext<CountryDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<CountryDbContext>();
+
+            services.Configure<IdentityOptions>(options =>
+            {   // Default password settings.
+                options.Password.RequireDigit = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireNonAlphanumeric = true;
+                options.Password.RequireUppercase = true;
+                options.Password.RequiredLength = 8;
+                options.Password.RequiredUniqueChars = 1;
+
+                //// Might Implement in the future
+                //// User settings
+                //options.User.RequireUniqueEmail = true;
+                ////Lockout settings
+                //options.Lockout.AllowedForNewUsers = true;
+                //options.Lockout.MaxFailedAccessAttempts = 3;
+                //options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(3);
+            });
+
+            // This hashes the password 100,000 times to make it more difficult for hackers.
+            services.Configure<PasswordHasherOptions>(options =>
+            {
+                options.IterationCount = 100_000;
+            });
+
             services.AddScoped<ICountryRepository, CountryRepository>();
             services.AddScoped<ICityRepository, CityRepository>();
             services.AddScoped<IPersonRepository, PersonRepository>();
@@ -38,6 +65,7 @@ namespace Mvc_Identity
             services.AddDistributedMemoryCache();
             services.AddSession(options =>
             {   // Set a short timeout for easy testing.
+                // 20 Min is standard time.
                 options.IdleTimeout = TimeSpan.FromMinutes(20);
                 options.Cookie.HttpOnly = true;
                 // Make the session cookie essential
@@ -56,6 +84,8 @@ namespace Mvc_Identity
             }
 
             app.UseStaticFiles();
+
+            app.UseAuthentication();
 
             app.UseSession();
 

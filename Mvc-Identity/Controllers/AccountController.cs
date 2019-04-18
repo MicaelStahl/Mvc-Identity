@@ -12,9 +12,17 @@ namespace Mvc_Identity.Controllers
     [Authorize]
     public class AccountController : Controller
     {
-
+        /// <summary>
+        /// _userManager is for EVERYTHING User related like creating, deleting, assigning roles etc.
+        /// </summary>
         private readonly UserManager<IdentityUser> _userManager;
+        /// <summary>
+        /// _signInManager is for EVERYTHING related to login and logout.
+        /// </summary>
         private readonly SignInManager<IdentityUser> _signInManager;
+        /// <summary>
+        /// _roleManager is for EVERYTHING related to roles, like creating, deleting.
+        /// </summary>
         private readonly RoleManager<IdentityRole> _roleManager;
 
         public AccountController(UserManager<IdentityUser> userManager,
@@ -64,6 +72,104 @@ namespace Mvc_Identity.Controllers
                 }
             }
             return View();
+        }
+
+        public async Task<IActionResult> SignOut()
+        {
+            await _signInManager.SignOutAsync();
+
+            return RedirectToAction(nameof(Index), "Home");
+        }
+
+        [HttpGet]
+        public IActionResult CreateUser()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> CreateUser(CreateUserVM createUser)
+        {
+            if (ModelState.IsValid)
+            {
+                IdentityUser user = new IdentityUser() { UserName = createUser.UserName, Email = createUser.Email };
+                var result = await _userManager.CreateAsync(user, createUser.Password);
+
+                if (result.Succeeded)
+                {
+                    ViewBag.msg = "User was successfully created!";
+
+                    return RedirectToAction(nameof(CreateUser));
+                }
+                else
+                {
+                    ViewBag.msg = result.ToString();
+                }
+            }
+            return View(createUser);
+        }
+
+        public IActionResult ListOfRoles()
+        {
+            return View(_roleManager.Roles.ToList());
+        }
+
+        [HttpGet]
+        public IActionResult AddRole()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddRole(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                return View();
+            }
+            var result = await _roleManager.CreateAsync(new IdentityRole(name));
+
+            if (result.Succeeded)
+            {
+                return RedirectToAction(nameof(ListOfRoles));
+            }
+            else
+            {
+                ViewBag.msg = result.ToString();
+            }
+            return View(name);
+        }
+
+        [HttpGet]
+        public IActionResult AssignUserToRole()
+        {
+            return View(_userManager.Users.ToList());
+        }
+        [HttpPost]
+        public async Task<IActionResult> AssignUserToRole(string userId, string role)
+        {
+            if (string.IsNullOrWhiteSpace(userId) ||
+                string.IsNullOrWhiteSpace(role))
+            {
+                ViewBag.msg = "Something went wrong (:";
+
+                return View(_userManager.Users.ToList());
+            }
+
+            IdentityUser user = await _userManager.FindByIdAsync(userId);
+            IdentityResult result = await _userManager.AddToRoleAsync(user, role);
+
+            if (result.Succeeded)
+            {
+                ViewBag.msg = "User was successfully assigned to role";
+
+                return RedirectToAction(nameof(ListOfRoles));
+            }
+            else
+            {
+                ViewBag.msg = result.ToString();
+
+                return View(_userManager.Users.ToList());
+            }
         }
     }
 }
