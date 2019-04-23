@@ -16,4 +16,10 @@
     <Folder Include="wwwroot\JS\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="InfoGenerator">
+      <HintPath>..\..\Assignment-Arena Fighter\Assignment-Arena Fighter\InfoGenerator.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

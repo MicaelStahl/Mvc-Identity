@@ -7,12 +7,21 @@
 <hr />
 <br />
 
-<form class="offset-2" asp-action="SignIn" asp-controller="Account">
+@if (ViewBag.msg != null)
+{
+    <p class="offset-2 errorMessage">@ViewBag.msg</p>
+}
+
+<form method="post" class="offset-2" asp-action="SignIn" asp-controller="Account">
 
     <label asp-for="UserName"></label>
+    <br />
     <input asp-for="UserName" placeholder="Username.." />
-
+    <hr />
     <label asp-for="Password"></label>
+    <br />
     <input asp-for="Password" placeholder="Password.." />
+    <hr />
+    <input type="submit" class="btn btn-success" value="Sign in" />
 
 </form>

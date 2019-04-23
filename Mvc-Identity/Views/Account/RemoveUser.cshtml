@@ -1,0 +1,16 @@
+﻿@model IdentityUser
+@{
+    ViewData["Title"] = "RemoveUser";
+}
+
+<br />
+<h1 class="offset-2">Remove @Model.UserName</h1>
+<hr />
+<br />
+
+<h5 class="offset-2">Are you sure you want to delete @Model.UserName?</h5>
+
+<a class="offset-2 btn btn-danger" asp-action="RemoveUser" asp-controller="Account" asp-route-roleId="@Model.Id">
+    Remove Role
+</a>
+<a class="offset-1 btn btn-primary" asp-action="ListOfRoles" asp-controller="Account">Return</a>

@@ -1,0 +1,18 @@
+﻿@model IdentityRole
+@{
+    ViewData["Title"] = "CreateRole";
+}
+
+<h1 class="offset-2">Create Role</h1>
+
+<form class="offset-2" asp-action="CreateRole" asp-controller="Account" method="post">
+
+    <label asp-for="Name"></label>
+    <input asp-for="Name" />
+
+    <input class="btn btn-success" type="submit" value="Submit" />
+
+</form>
+
+@* This will prolly change later on. Just a temporary button in case I'd regret adding. *@
+<a class="btn btn-primary offset-2" asp-action="Index" asp-controller="Home">Return</a>

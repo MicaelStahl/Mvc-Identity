@@ -4,8 +4,47 @@
 }
 
 <br />
-<h1>ListOfRoles</h1>
+<h1 class="offset-2">List Of Roles</h1>
 <hr />
 <br />
 
+<a class="offset-1 btn btn-success" asp-action="CreateRole" asp-controller="Account">Create new role</a>
 
+@if (ViewBag.msg != null)
+{
+    <p class="offset-2 errorMessage">@ViewBag.msg</p>
+}
+
+<table class="offset-2 table-active marginBottom60">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Options</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Count != 0)
+        {
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.Name</td>
+                    <td>
+                        <a class="btn btn-success" asp-action="AssignUserToRole" asp-route-role="@item.Name" asp-controller="Account">
+                            Assign user to role
+                        </a>
+                        <a class="btn btn-danger" asp-action="RemoveRole" asp-route-roleId="@item.Id">
+                            Remove role
+                        </a>
+                    </td>
+
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+@* Another button that's probably temporary. Useful for testing purposes however. *@
+<a class="btn btn-primary offset-2" asp-action="Index" asp-controller="Home">Return</a>

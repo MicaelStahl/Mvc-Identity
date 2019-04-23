@@ -11,7 +11,9 @@ namespace Mvc_Identity.DataBase
 {
     public class CountryDbContext : IdentityDbContext<IdentityUser>
     {
-        public CountryDbContext(DbContextOptions<CountryDbContext> options) : base(options) { }
+        public CountryDbContext(DbContextOptions<CountryDbContext> options) : base(options)
+        {
+        }
 
         public DbSet<Country> Countries { get; set; }
         public DbSet<City> Cities { get; set; }

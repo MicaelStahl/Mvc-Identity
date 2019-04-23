@@ -30,6 +30,30 @@
                         <li class="nav-item btn btn-dark">
                             <a asp-action="Index" asp-controller="Country">Countries</a>
                         </li>
+                        <li class="nav-item btn btn-dark">
+                            <a asp-action="CreateUser" asp-controller="Account">Create User</a>
+                        </li>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                        <li class="nav-item btn btn-dark">
+                            <a asp-action="CreateRole" asp-controller="Account">Create Role</a>
+                        </li>
+                        <li class="nav-item btn btn-dark">
+                            <a asp-action="ListOfRoles" asp-controller="Account">List of roles</a>
+                        </li>
+                            @*<li class="nav-item btn btn-dark">
+                                    <a asp-action="CreateUser" asp-controller="Account">Create User</a>
+                                </li>*@
+                            <li class="nav-item btn btn-dark">
+                                <a asp-action="SignOut" asp-controller="Account">Sign out</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item btn btn-dark">
+                                <a asp-action="SignIn" asp-controller="Account">Sign in</a>
+                            </li>
+                        }
 
                     </ul>
                 </div>
@@ -39,8 +63,6 @@
     <div>
         @RenderBody()
     </div>
-    <footer class="">
-
-    </footer>
+    <footer class=""></footer>
 </body>
 </html>

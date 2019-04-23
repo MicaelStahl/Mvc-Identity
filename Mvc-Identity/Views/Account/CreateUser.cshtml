@@ -7,18 +7,42 @@
 <hr />
 <br />
 
-<form class="offset-2" asp-action="CreateUser" asp-controller="Account">
+@if (ViewBag.msg != null)
+{
+    <p class="successMessage offset-2">@ViewBag.msg</p>
+}
+@if (ViewBag.errorlist != null)
+{
+    <ul> @* This creates a list of all errors that was caused. Note the IdentityError. *@
+        @foreach (var item in (IEnumerable<IdentityError>)ViewBag.errorlist)
+        {
+            <li class="errorMessage">@item.Description</li>
+        }
+    </ul>
+}
 
-    <label asp-for="UserName"></label>
-    <input asp-for="UserName" />
+    <form method="post" class="offset-2 col-2" asp-action="CreateUser" asp-controller="Account">
 
-    <label asp-for="Email"></label>
-    <input asp-for="Email" />
+        <label asp-for="UserName"></label>
+        <br />
+        <input asp-for="UserName" />
+        <hr />
+        <label asp-for="Email"></label>
+        <br />
+        <input asp-for="Email" />
+        <hr />
+        <label asp-for="Password"></label>
+        <br />
+        <input asp-for="Password" />
+        <hr />
+        <label asp-for="ConfirmPassword"></label>
+        <br />
+        <input asp-for="ConfirmPassword" />
+        <hr />
+        <label>Is Admin</label>
+        <br />
+        <input type="checkbox" asp-for="Admin" />
+        <hr />
+        <input type="submit" class="btn btn-success" value="Submit" />
 
-    <label asp-for="Password"></label>
-    <input asp-for="Password" />
-
-    <label asp-for="ConfirmPassword"></label>
-    <input asp-for="ConfirmPassword" />
-
-</form>
+    </form>

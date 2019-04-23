@@ -1,0 +1,49 @@
+﻿@model List<IdentityUser>
+@{
+    ViewData["Title"] = "AssignUserToRole";
+}
+
+<br />
+<h1 class="offset-2">AssignUserToRole</h1>
+<hr />
+<br />
+
+@if (ViewBag.msg != null)
+{
+    <p class="errorMessage offset-2">@ViewBag.msg</p>
+}
+
+<table class="offset-2">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Add to role: @ViewBag.role</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Count != 0)
+        {
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.UserName</td>
+
+                    @* More than likely not a pretty solution. But didn't know how to do it otherwise.
+                        Will change this once I've gathered a better understanding of how Identity functions. *@
+                    @*<td class="btn btn-success">
+                            @Html.ActionLink("Assign role too", "AssignUserToRole", "Account", new { role = ViewBag.role, userId = item.Id })
+                        </td>*@
+                    <td>
+                        <a class="btn btn-success"
+                           asp-action="AssignUserToRoleSave"
+                           asp-controller="Account"
+                           asp-route-role="@ViewBag.role"
+                           asp-route-userId="@item.Id">
+                            Assign role
+                        </a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
