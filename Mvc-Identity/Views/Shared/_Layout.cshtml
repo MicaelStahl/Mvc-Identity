@@ -21,37 +21,43 @@
                         <li class="nav-item active btn btn-dark">
                             <a asp-action="Index" asp-controller="Home">Home</a>
                         </li>
-                        <li class="nav-item btn btn-dark">
-                            <a asp-action="Index" asp-controller="Person">People</a>
-                        </li>
-                        <li class="nav-item btn btn-dark">
-                            <a asp-action="Index" asp-controller="City">Cities</a>
-                        </li>
-                        <li class="nav-item btn btn-dark">
-                            <a asp-action="Index" asp-controller="Country">Countries</a>
-                        </li>
-                        <li class="nav-item btn btn-dark">
-                            <a asp-action="CreateUser" asp-controller="Account">Create User</a>
-                        </li>
                         @if (User.Identity.IsAuthenticated)
                         {
-                        <li class="nav-item btn btn-dark">
-                            <a asp-action="CreateRole" asp-controller="Account">Create Role</a>
-                        </li>
-                        <li class="nav-item btn btn-dark">
-                            <a asp-action="ListOfRoles" asp-controller="Account">List of roles</a>
-                        </li>
+                            <li class="nav-item btn btn-dark">
+                                <a asp-action="Index" asp-controller="Person">People</a>
+                            </li>
+                            if (User.IsInRole("Administrator"))
+                            {
+                                <li class="nav-item btn btn-dark">
+                                    <a asp-action="Index" asp-controller="City">Cities</a>
+                                </li>
+                                <li class="nav-item btn btn-dark">
+                                    <a asp-action="Index" asp-controller="Country">Countries</a>
+                                </li>
+                            }
+                            <li class="nav-item btn btn-dark">
+                                <a asp-action="CreateRole" asp-controller="Account">Create Role</a>
+                            </li>
+                            <li class="nav-item btn btn-dark">
+                                <a asp-action="ListOfRoles" asp-controller="Account">List of roles</a>
+                            </li>
                             @*<li class="nav-item btn btn-dark">
                                     <a asp-action="CreateUser" asp-controller="Account">Create User</a>
                                 </li>*@
+                        }
+                        <li class="nav-item btn btn-dark">
+                            <a asp-action="CreateUser" asp-controller="Account">Create User</a>
+                        </li>
+                        @if (!User.Identity.IsAuthenticated)
+                        {
                             <li class="nav-item btn btn-dark">
-                                <a asp-action="SignOut" asp-controller="Account">Sign out</a>
+                                <a asp-action="SignIn" asp-controller="Account">Sign in</a>
                             </li>
                         }
                         else
                         {
                             <li class="nav-item btn btn-dark">
-                                <a asp-action="SignIn" asp-controller="Account">Sign in</a>
+                                <a asp-action="SignOut" asp-controller="Account">Sign out</a>
                             </li>
                         }
 

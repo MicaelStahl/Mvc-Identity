@@ -9,7 +9,10 @@
 <br />
 
 <h5 class="offset-2">Are you sure you want to delete "@Model.Name"?</h5>
+
 <form class="offset-2" asp-action="RemoveRole" asp-controller="Account" asp-route-roleId="@Model.Id">
+
     <input class="btn btn-danger" value="Remove Role" type="submit" />
+
     <a class="offset-1 btn btn-primary" asp-action="ListOfRoles" asp-controller="Account">Return</a>
 </form>

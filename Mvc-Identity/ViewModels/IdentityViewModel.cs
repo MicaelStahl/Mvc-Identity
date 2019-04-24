@@ -25,6 +25,14 @@ namespace Mvc_Identity.ViewModels
         public string UserName { get; set; }
 
         [Required]
+        [Display(Name = "Firstname")]
+        public string FirstName { get; set; }
+
+        [Required]
+        [Display(Name = "Secondname")]
+        public string SecondName { get; set; }
+
+        [Required]
         [EmailAddress]
         [Display(Name = "E-mail")]
         [DataType(DataType.EmailAddress)]
@@ -41,6 +49,8 @@ namespace Mvc_Identity.ViewModels
         [Display(Name = "Confirm Password")]
         public string ConfirmPassword { get; set; }
 
+        [Required]
+        [Display(Name ="Admin")]
         public bool Admin { get; set; }
     }
 }

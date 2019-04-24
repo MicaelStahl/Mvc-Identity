@@ -5,10 +5,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Mvc_Identity.DataBase;
+using Mvc_Identity.ViewModels;
 
 namespace Mvc_Identity
 {
@@ -25,8 +27,11 @@ namespace Mvc_Identity
                 var services = scope.ServiceProvider;
                 try
                 {
+                    RoleManager<IdentityRole> roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+                    UserManager<AppUser> userManager = services.GetRequiredService<UserManager<AppUser>>();
+
                     var context = services.GetRequiredService<CountryDbContext>();
-                    CountryDbInitializer.Initialize(context);
+                    CountryDbInitializer.Initialize(context, roleManager, userManager);
                 }
                 catch (Exception ex)
                 {

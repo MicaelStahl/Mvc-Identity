@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Mvc_Identity.Interfaces;
 using Mvc_Identity.ViewModels;
 
 namespace Mvc_Identity.Controllers
 {
+    [Authorize]
     public class PersonController : Controller
     {
         private readonly IPersonRepository _person;
@@ -91,6 +93,7 @@ namespace Mvc_Identity.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Administrator")]
         public IActionResult Delete(int? id)
         {
             if (id != null || id != 0)
@@ -106,6 +109,7 @@ namespace Mvc_Identity.Controllers
             return BadRequest();
         }
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Administrator")]
         public IActionResult DeleteConfirmed(int? id)
         {
             if (id != null || id != 0)

@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Mvc_Identity.DataBase;
 using Mvc_Identity.Interfaces;
 using Mvc_Identity.Models;
+using Mvc_Identity.ViewModels;
 
 namespace Mvc_Identity
 {
@@ -32,7 +33,7 @@ namespace Mvc_Identity
             services.AddDbContext<CountryDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<CountryDbContext>();
+            services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<CountryDbContext>();
 
             services.Configure<IdentityOptions>(options =>
             {   // Default password settings.

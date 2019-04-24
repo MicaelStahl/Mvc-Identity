@@ -31,27 +31,30 @@ namespace Mvc_Identity.Controllers
         /*      REMEMBER:
          * - Remember to use DataAnnotations correctly with users, logged-in or not.
          * - [AllowAnonymous] Allows the user to access the Action-method even if the Controller has [Authorize] on top.
+         * - [AllowAnonymous] bypasses ALL [Authorize] statements put.
          * - Keep it simple for once...
          * - Please listen to the above text.
          * - Work on the Identity section AFTER you're done with everything else.
          * - Start off with 1 user to see how it all behaves. Add more at a later stage.
+         * - You don't put a specific "tier" on roles like i first thought. you just put restrictions -
+         *      - On everything with [Authorize(Roles = "X")]
          */
 
         /// <summary>
         /// _userManager is for EVERYTHING User related like creating, deleting, assigning roles etc.
         /// </summary>
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<AppUser> _userManager;
         /// <summary>
         /// _signInManager is for EVERYTHING related to login and logout. Which is... login and logout.
         /// </summary>
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly SignInManager<AppUser> _signInManager;
         /// <summary>
         /// _roleManager is for EVERYTHING related to roles, like creating, deleting.
         /// </summary>
         private readonly RoleManager<IdentityRole> _roleManager;
 
-        public AccountController(UserManager<IdentityUser> userManager,
-                                 SignInManager<IdentityUser> signInManager,
+        public AccountController(UserManager<AppUser> userManager,
+                                 SignInManager<AppUser> signInManager,
                                  RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
@@ -138,13 +141,17 @@ namespace Mvc_Identity.Controllers
         {
             if (ModelState.IsValid)
             {
-                IdentityUser user = new IdentityUser() { UserName = createUser.UserName, Email = createUser.Email };
+                AppUser user = new AppUser() { UserName = createUser.UserName, Email = createUser.Email };
                 var result = await _userManager.CreateAsync(user, createUser.Password);
 
+                // This checks if the user checked the checkbox when creating the user.
+                // If the user did, then the user will be assigned the Administrator role.
                 if (createUser.Admin == true)
-                {
+                { 
                     await _userManager.AddToRoleAsync(user, "Administrator");
                 }
+
+                await _userManager.AddToRoleAsync(user, "NormalUser");
 
                 if (result.Succeeded)
                 { // Change this later. this is just to make it easier to create several users quickly.
@@ -232,7 +239,7 @@ namespace Mvc_Identity.Controllers
                 return RedirectToAction(nameof(AssignUserToRole), "Account", role);
             }
 
-            IdentityUser user = await _userManager.FindByIdAsync(userId);
+            AppUser user = await _userManager.FindByIdAsync(userId);
             IdentityResult result = await _userManager.AddToRoleAsync(user, role);
 
             if (result.Succeeded)

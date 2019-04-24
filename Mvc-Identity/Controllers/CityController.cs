@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Mvc_Identity.Interfaces;
@@ -9,6 +10,7 @@ using Mvc_Identity.ViewModels;
 
 namespace Mvc_Identity.Controllers
 {
+    [Authorize(Roles = "Administrator")]
     public class CityController : Controller
     {
 

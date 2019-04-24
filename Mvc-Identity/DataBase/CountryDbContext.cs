@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Mvc_Identity.DataBase
 {
-    public class CountryDbContext : IdentityDbContext<IdentityUser>
+    public class CountryDbContext : IdentityDbContext<AppUser>
     {
         public CountryDbContext(DbContextOptions<CountryDbContext> options) : base(options)
         {
