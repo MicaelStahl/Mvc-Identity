@@ -46,11 +46,38 @@ namespace Mvc_Identity.Controllers
         }
 
         [HttpGet]
+        public IActionResult CreatePerson()
+        {
+            var cp = _person.FindPersonAllCitiesAllCountries();
+
+            return View(cp);
+        }
+        [HttpPost]
+        public IActionResult CreatePerson(CreatePersonVM cp)
+        {
+            if (ModelState.IsValid)
+            {
+                var person = _person.CreatePerson(cp.Person);
+
+                if (person != null)
+                {
+                    if (cp.City != null || cp.Country != null)
+                    {
+                        person.City = cp.City;
+                        person.City.Country = cp.Country;
+                    }
+                    return RedirectToAction(nameof(Index), "Person", new { id = person.Id });
+                }
+            }
+            return BadRequest();
+        }
+
+        [HttpGet]
         public IActionResult Details(int? id)
         {
             if (id != null || id != 0)
             {
-                var student = _person.FindPerson(id);
+                var student = _person.FindPersonWithEverything(id);
 
                 if (student != null)
                 {

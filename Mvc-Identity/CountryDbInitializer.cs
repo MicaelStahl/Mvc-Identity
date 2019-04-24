@@ -32,7 +32,7 @@ namespace Mvc_Identity
                 roleManager.CreateAsync(role).Wait();
             }
 
-            //----------------- New Section ----------------------
+            //---------------------- New Section ----------------------\\
 
             if (userManager.FindByNameAsync("Micael").Result == null)
             {
@@ -70,7 +70,7 @@ namespace Mvc_Identity
                 }
             }
 
-            //----------------- New Section ----------------------
+            //---------------------- New Section ----------------------\\
 
             if (!db.Countries.Any())
             {

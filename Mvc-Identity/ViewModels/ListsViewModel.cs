@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -36,5 +37,18 @@ namespace Mvc_Identity.ViewModels
         public List<int> CityId { get; set; } = new List<int>();
 
         public Country Country { get; set; }
+    }
+
+    public class CreatePersonVM
+    {
+        public Person Person { get; set; }
+
+        public City City { get; set; }
+        public List<City> Cities { get; set; }
+        public List<SelectListItem> SelectCities { get; set; }
+
+        public Country Country { get; set; }
+        public List<Country> Countries { get; set; }
+        public List<SelectListItem> SelectCountries { get; set; }
     }
 }

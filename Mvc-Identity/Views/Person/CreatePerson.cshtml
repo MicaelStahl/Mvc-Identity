@@ -1,0 +1,60 @@
+﻿@model CreatePersonVM
+@{
+    ViewData["Title"] = "CreatePerson";
+}
+
+<br />
+<h1 class="offset-2">CreatePerson</h1>
+<hr />
+<br />
+
+<a class="btn btn-primary" asp-action="Index" asp-controller="Person">Return</a>
+
+<form class="offset-2 col-2" asp-action="CreatePerson" asp-controller="Person" method="post">
+    <hr />
+    <label asp-for="Person.Name"></label>
+    <br />
+    <input asp-for="Person.Name" />
+    <hr />
+    <label asp-for="Person.Age"></label>
+    <br />
+    <input asp-for="Person.Age" />
+    <hr />
+    <div id="Equality" class="row">
+        <label class="col-3">Man</label>
+        <label class="col-3">Woman</label>
+        <label class="col-3">Llama</label>
+    </div>
+    <br />
+    <div class="row">
+        <input type="radio" asp-for="Person.Gender" value="Man" class="col-3" />
+        <input type="radio" asp-for="Person.Gender" value="Woman" class="col-3" />
+        <input type="radio" asp-for="Person.Gender" value="Llama" class="col-3" />
+    </div>
+    <hr />
+    <label asp-for="Person.PhoneNumber"></label>
+    <br />
+    <input asp-for="Person.PhoneNumber" />
+    <hr />
+
+    @*@Html.DropDownListFor(x => x.Cities, new SelectList(Model.Cities), "Select one", new { @class = "form-control" })
+        @Html.DropDownListFor(x => x.Countries, new SelectList(Model.Countries), "Select one", new { @class = "form-control" })*@
+
+
+    @* THIS NEEDS TO BE DONE VIA AJAX. *@
+    <select name="listbox" id="listbox">
+        @foreach (var item in Model.Cities)
+        {
+            <option value="@item.Id">@item.Name</option>
+        }
+    </select>
+    <select name="listbox" id="listbox">
+        @foreach (var item in Model.Countries)
+        {
+            <option value="@item.Id">@item.Name</option>
+        }
+    </select>
+    <hr />
+    <input class="btn btn-success" type="submit" value="Submit" />
+
+</form>

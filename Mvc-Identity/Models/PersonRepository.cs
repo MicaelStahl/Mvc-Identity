@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Mvc_Identity.DataBase;
 using Mvc_Identity.Interfaces;
 using Mvc_Identity.ViewModels;
@@ -118,7 +119,7 @@ namespace Mvc_Identity.Models
 
             var person = _db.People
                 .Include(x => x.City)
-                .ThenInclude(x=>x.Country)
+                .ThenInclude(x => x.Country)
                 .SingleOrDefault(x => x.Id == id);
 
             if (person != null)
@@ -127,6 +128,24 @@ namespace Mvc_Identity.Models
             }
 
             return null;
+        }
+
+        public CreatePersonVM FindPersonAllCitiesAllCountries()
+        {
+            CreatePersonVM cp = new CreatePersonVM();
+
+            cp.Cities = _db.Cities.Where(x => x.Id == x.Id).ToList();
+            cp.Countries = _db.Countries
+                .Include(x=>x.Cities)
+                .Where(x => x.Id == x.Id).ToList();
+
+
+
+            if (cp.Cities.Count == 0 || cp.Countries.Count == 0)
+            {
+                return null;
+            }
+            return cp;
         }
     }
 }
