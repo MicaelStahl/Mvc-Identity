@@ -42,13 +42,13 @@
 
 
     @* THIS NEEDS TO BE DONE VIA AJAX. *@
-    <select name="listbox" id="listbox">
+    <select name="City" id="listbox">
         @foreach (var item in Model.Cities)
         {
             <option value="@item.Id">@item.Name</option>
         }
     </select>
-    <select name="listbox" id="listbox">
+    <select name="Country" id="listbox">
         @foreach (var item in Model.Countries)
         {
             <option value="@item.Id">@item.Name</option>
