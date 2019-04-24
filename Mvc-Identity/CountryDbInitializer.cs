@@ -22,14 +22,14 @@ namespace Mvc_Identity
             {
                 IdentityRole role = new IdentityRole("Administrator");
 
-                roleManager.CreateAsync(role);
+                roleManager.CreateAsync(role).Wait();
             }
 
             if (!roleManager.RoleExistsAsync("NormalUser").Result)
             {
                 IdentityRole role = new IdentityRole("NormalUser");
 
-                roleManager.CreateAsync(role);
+                roleManager.CreateAsync(role).Wait();
             }
 
             //----------------- New Section ----------------------
@@ -81,50 +81,39 @@ namespace Mvc_Identity
                     new Country{Name="USA", Population="532Million" },
                 };
 
-                foreach (Country item in countries)
-                {
-                    db.Countries.Add(item);
-                }
+                db.Countries.AddRange(countries);
 
                 db.SaveChanges();
-            }
 
-            if (!db.Cities.Any())
-            {
-                Random random = new Random();
-
-                var cities = new City[]
+                if (!db.Cities.Any())
                 {
-                    new City{Name="Vetlanda", Population="13,123", Country=db.Countries.SingleOrDefault(x=>x.Name=="Sweden")},
-                    new City{Name="Viborg", Population="32,361", Country=db.Countries.SingleOrDefault(x=>x.Name=="Denmark")},
-                    new City{Name="Växjö", Population="68,213", Country = db.Countries.SingleOrDefault(x => x.Name == "Sweden")},
-                    new City{Name="Washington DC", Population="1,013,123", Country = db.Countries.SingleOrDefault(x => x.Name == "USA")},
-                };
+                    var cities = new City[]
+                    {
+                        new City{Name="Vetlanda", Population="13,123", Country=countries[0]},
+                        new City{Name="Viborg", Population="32,361", Country=countries[1]},
+                        new City{Name="Växjö", Population="68,213", Country=countries[0]},
+                        new City{Name="Washington DC", Population="1,013,123", Country=countries[2]},
+                    };
+                    db.Cities.AddRange(cities);
 
-                foreach (City item in cities)
-                {
-                    db.Cities.Add(item);
+                    db.SaveChanges();
+
+                    if (!db.People.Any())
+                    {
+                        var people = new Person[]
+                        {
+                            new Person{Name="Micael Ståhl", Age=22, Gender="Male", PhoneNumber="123456789", City = cities[0]},
+                            new Person{Name="Rikke Frederiksen", Age=24, Gender="Female", PhoneNumber="123456789", City = cities[1]},
+                            new Person{Name="Emma Ståhl", Age=19, Gender="Female", PhoneNumber="987654321", City = cities[0]},
+                            new Person{Name="Adam Adamsson", Age=42, Gender="Llama", PhoneNumber="291939212", City = cities[2]},
+                            new Person{Name="Abraham Lincoln", Age=53, Gender="Male", PhoneNumber="32142132", City = cities[3]}
+                        };
+
+                        db.People.AddRange(people);
+
+                        db.SaveChanges();
+                    }
                 }
-
-                db.SaveChanges();
-            }
-
-            if (!db.People.Any())
-            {
-                var people = new Person[]
-                {
-                new Person{Name="Micael Ståhl", Age=22, Gender="Male", PhoneNumber="123456789", City = db.Cities.SingleOrDefault(x=>x.Name=="Vetlanda")},
-                new Person{Name="Rikke Frederiksen", Age=24, Gender="Female", PhoneNumber="123456789", City = db.Cities.SingleOrDefault(x=>x.Name=="Viborg")},
-                new Person{Name="Emma Ståhl", Age=19, Gender="Female", PhoneNumber="987654321", City = db.Cities.SingleOrDefault(x=>x.Name=="Vetlanda")},
-                new Person{Name="Adam Adamsson", Age=42, Gender="Llama", PhoneNumber="291939212", City = db.Cities.SingleOrDefault(x=>x.Name=="Växjö")},
-                new Person{Name="Abraham Lincoln", Age=53, Gender="Male", PhoneNumber="32142132", City = db.Cities.SingleOrDefault(x=>x.Name=="Washington DC")}
-                };
-                foreach (Person item in people)
-                {
-                    db.People.Add(item);
-                }
-
-                db.SaveChanges();
             }
         }
     }
