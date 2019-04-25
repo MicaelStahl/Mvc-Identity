@@ -44,11 +44,12 @@ namespace Mvc_Identity.ViewModels
         public Person Person { get; set; }
 
         public City City { get; set; }
-        public List<City> Cities { get; set; }
-        public List<SelectListItem> SelectCities { get; set; }
+        public List<City> Cities { get; set; } = new List<City>();
 
+        public int CountryId { get; set; }
         public Country Country { get; set; }
-        public List<Country> Countries { get; set; }
-        public List<SelectListItem> SelectCountries { get; set; }
+        public List<Country> Countries { get; set; } = new List<Country>();
+
+        public List<City> CitiesInCountry { get; set; } = new List<City>();
     }
 }

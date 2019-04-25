@@ -46,9 +46,18 @@ namespace Mvc_Identity.Controllers
         }
 
         [HttpGet]
-        public IActionResult CreatePerson()
+        public IActionResult CreatePerson(int? countryId)
         {
-            var cp = _person.FindPersonAllCitiesAllCountries();
+            CreatePersonVM cp = new CreatePersonVM();
+
+            if (countryId != null || countryId != 0)
+            {
+            }
+            else
+            {
+                cp.CountryId = (int)countryId;
+            }
+            cp = _person.FindPersonAllCitiesAllCountries(cp);
 
             return View(cp);
         }

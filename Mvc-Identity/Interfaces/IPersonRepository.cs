@@ -20,6 +20,6 @@ namespace Mvc_Identity.Interfaces
 
         Person FindPersonWithEverything(int? id);
 
-        CreatePersonVM FindPersonAllCitiesAllCountries();
+        CreatePersonVM FindPersonAllCitiesAllCountries(CreatePersonVM cp);
     }
 }

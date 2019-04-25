@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
 namespace Mvc_Identity.ViewModels
 {
-    public class Country
+    [DataContract]
+    public class JsonDeSerializer
     {
-        public int Id { get; set; }
         public string Name { get; set; }
-        public string Population { get; set; }
-
-        public List<City> Cities { get; set; }
     }
 }

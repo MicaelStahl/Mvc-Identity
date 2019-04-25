@@ -130,14 +130,22 @@ namespace Mvc_Identity.Models
             return null;
         }
 
-        public CreatePersonVM FindPersonAllCitiesAllCountries()
+        public CreatePersonVM FindPersonAllCitiesAllCountries(CreatePersonVM cp)
         {
-            CreatePersonVM cp = new CreatePersonVM();
+            //CreatePersonVM cp = new CreatePersonVM();
 
             cp.Cities = _db.Cities.Where(x => x.Id == x.Id).ToList();
             cp.Countries = _db.Countries
-                .Include(x=>x.Cities)
+                .Include(x => x.Cities)
                 .Where(x => x.Id == x.Id).ToList();
+
+            if (cp.CountryId != 0)
+            {
+                cp.CitiesInCountry = _db.Cities
+                    .Include(x => x.Country)
+                    .Where(x => x.Country.Id == cp.CountryId)
+                    .ToList();
+            }
 
 
 

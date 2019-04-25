@@ -11,7 +11,7 @@ namespace Mvc_Identity.ViewModels
         public string Name { get; set; }
         public string Population { get; set; }
 
-        public List<Person> People { get; } = new List<Person>();
+        public List<Person> People { get; set; }
 
         public Country Country { get; set; }
     }
