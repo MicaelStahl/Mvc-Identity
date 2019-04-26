@@ -10,17 +10,17 @@
 
 <a class="btn btn-primary floatLeft" asp-action="Index" asp-controller="Person">Return</a>
 
-<form class="offset-2 col-2" asp-action="CreatePerson" asp-controller="Person" method="post">
-    
-    <label asp-for="Person.Name"></label>
+<form class="col-2 offset-2" asp-action="CreatePerson" asp-controller="Person" method="post">
+
+    <label asp-for="PersonName"></label>
     <br />
-    <input asp-for="Person.Name" />
+    <input id="createName" asp-for="PersonName" />
 
     <hr />
 
-    <label asp-for="Person.Age"></label>
+    <label asp-for="PersonAge"></label>
     <br />
-    <input asp-for="Person.Age" />
+    <input id="createAge" asp-for="PersonAge" />
 
     <hr />
 
@@ -31,42 +31,18 @@
     </div>
     <br />
     <div class="row">
-        <input type="radio" asp-for="Person.Gender" value="Man" class="col-3" />
-        <input type="radio" asp-for="Person.Gender" value="Woman" class="col-3" />
-        <input type="radio" asp-for="Person.Gender" value="Llama" class="col-3" />
+        <input id="createGender" type="radio" asp-for="PersonGender" value="Man" class="col-3" />
+        <input id="createGender" type="radio" asp-for="PersonGender" value="Woman" class="col-3" />
+        <input id="createGender" type="radio" asp-for="PersonGender" value="Llama" class="col-3" />
     </div>
 
     <hr />
 
-    <label asp-for="Person.PhoneNumber"></label>
+    <label asp-for="PersonPhoneNumber"></label>
     <br />
-    <input asp-for="Person.PhoneNumber" />
+    <input id="createPhoneNumber" asp-for="PersonPhoneNumber" />
 
     <hr />
-
-    @* THIS NEEDS TO BE DONE VIA AJAX. *@
-    @*<label>Available Cities</label>
-        <select name="City" id="listbox">
-            <option value="@null">Select one</option>
-            <option value="@null">None</option>
-            @if (Model.CitiesInCountry.Count != 0 || Model.CitiesInCountry != null)
-            {
-                foreach (var item in Model.CitiesInCountry)
-                {
-                    <option value="@item.Id">@item.Name</option>
-                }
-            }
-        </select>
-        <br />
-        <label>Countries</label>
-        <select name="Country" id="listbox">
-            <option value="@null">Select one</option>
-            <option value="@null">None</option>
-            @foreach (var item in Model.Countries)
-            {
-                <option value="@item.Id" selected onclick="">@item.Name</option>
-            }
-        </select>*@
 
     <div class="form-group">
         <label>Country</label>
@@ -76,13 +52,15 @@
     </div>
     <div class="form-group">
         <label>Cities</label>
-        <select id="cityDropDownList" class="form-control">
+        <select asp-for="CityId" id="cityDropDownList" class="form-control createCity">
             <option value="Select">Select one</option>
         </select>
     </div>
 
     <hr />
 
-    <input class="btn btn-success" type="submit" value="Submit" />
+    <button class="btn btn-success">
+        Submit
+    </button>
 
 </form>

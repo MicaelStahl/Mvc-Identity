@@ -1,16 +1,16 @@
-﻿// ----------------------- Rewrite the new AJAX code down here --------------------------------------
+﻿// ----------------------- DropdownList of countries ----------------------- \\
 
-function CountryDropDownList() {
+$(document).ready(function () {
     $.ajax({
-        method: "GET",
         url: '/JSON/GetCountries',
+        method: "GET",
         data: '{}',
         success: function (data) {
-            var options = '<option value"Select">Select one</option>';
+            var options = '';
             for (var i = 0; i < data.length; i++) {
-                options += '<option value="' + data[i].id + '">' + data[i].name + '</option>';
+                options += '<option value="' + data[i].name + '">' + data[i].name + '</option>';
             }
-            $('#countriesDropDownList').append(options);
+            $('#countryDropDownList').append(options);
         },
         error: function (status) {
             if (status === 'notfound') {
@@ -20,57 +20,42 @@ function CountryDropDownList() {
                 alert("You did something wrong. Please refresh and try again.");
             }
             else {
-                alert('error: ' + status);
+                alert('error: ' + status.statusText);
             }
         }
     });
-}
+});
 
+// ----------------------- DropdownList of cities ----------------------- \\
 
-if (URL = "/Person/CreatePerson") {
+$('#countryDropDownList').on("change", function () {
+    var country = $('#countryDropDownList').val();
 
-    $(function () {
+    $.post('/JSON/GetCities',
+        {
+            countryName: country
+        },
 
-        AjaxCall('/JSON/GetCountries', null).done(function (response) {
-            if (response.length > 0) {
-                $('#countryDropDownList').html('');
+        function (data, status) {
+
+            if (status.toString() == "success" || data.length > 0) {
+
+                $('#cityDropDownList').html('');
                 var options = '';
-                options += '<option value="Select">Select one</option>';
-                for (var i = 0; i < response.length; i++) {
-                    options += '<option value"' + response[i].id + '">' + response[i].name + '</option>';
-                }
-                $('#countryDropDownList').append(options);
 
+                for (var i = 0; i < data.length; i++) {
+                    options += '<option value="' + data[i].id + '">' + data[i].name + '</option>';
+                }
+                $('#cityDropDownList').append(options);
             }
-        }).fail(function (error) {
-            alert(error.StatusText + "what do you want from me");
-        });
-
-        $('#countryDropDownList').on("change", function () {
-            var country = $('#countryDropDownList').val();
-            var obj = country;
-            AjaxCall('/JSON/GetCities', obj).done(function (result) {
-                if (result.length > 0) {
-                    $('#cityDropDownList').html('');
-                    var options = '';
-                    options += '<option value="Select">Select one</option>';
-                    for (var i = 0; i < result.length; i++) {
-                        options += 'option value"' + result[i].id + '">' + result[i].name + '</option>';
-                    }
-                    $('#cityDropDownList').append(options);
-
-                }
-            }).fail(function (error) {
-                console.log(error.statusText);
-                alert(error.StatusText + " Hey :)");
-            });
-        });
-    });
-}
-function AjaxCall(url, data) {
-    return $.ajax({
-        url: url,
-        type: 'GET',
-        data: { country: data },
-    });
-}
+            if (status.toString() == "notfound") {
+                alert("notfound");
+            }
+            else if (status.toString() == "badrequest") {
+                alert("badrequest");
+            }
+            else {
+                //alert("error: " + status.toString());
+            }
+        })
+});

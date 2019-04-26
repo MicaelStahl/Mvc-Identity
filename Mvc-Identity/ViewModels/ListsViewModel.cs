@@ -38,18 +38,4 @@ namespace Mvc_Identity.ViewModels
 
         public Country Country { get; set; }
     }
-
-    public class CreatePersonVM
-    {
-        public Person Person { get; set; }
-
-        public City City { get; set; }
-        public List<City> Cities { get; set; } = new List<City>();
-
-        public int CountryId { get; set; }
-        public Country Country { get; set; }
-        public List<Country> Countries { get; set; } = new List<Country>();
-
-        public List<City> CitiesInCountry { get; set; } = new List<City>();
-    }
 }

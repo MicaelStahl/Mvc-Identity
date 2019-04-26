@@ -10,7 +10,7 @@ namespace Mvc_Identity.Interfaces
     {
         List<Person> AllPeople();
 
-        Person CreatePerson(Person person);
+        Person CreatePerson(CreatePersonVM cp);
 
         Person EditPerson(Person person);
 
@@ -20,6 +20,6 @@ namespace Mvc_Identity.Interfaces
 
         Person FindPersonWithEverything(int? id);
 
-        CreatePersonVM FindPersonAllCitiesAllCountries(CreatePersonVM cp);
+        //CreatePersonVM FindPersonAllCitiesAllCountries(CreatePersonVM cp);
     }
 }

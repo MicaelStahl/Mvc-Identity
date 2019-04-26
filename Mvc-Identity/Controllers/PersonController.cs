@@ -24,59 +24,44 @@ namespace Mvc_Identity.Controllers
             return View(_person.AllPeople());
         }
 
+        //[HttpGet]
+        //public IActionResult Create()
+        //{
+        //    return View();
+        //}
+        //[HttpPost]
+        //public IActionResult Create([Bind("Name, Age, Gender, PhoneNumber")]Person person)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var newPerson = _person.CreatePerson(person);
+
+        //        if (newPerson != null)
+        //        {
+        //            return RedirectToAction(nameof(Details), "Person", new { id = newPerson.Id });
+        //        }
+        //        return NotFound();
+        //    }
+        //    return BadRequest();
+        //}
+
         [HttpGet]
-        public IActionResult Create()
+        public IActionResult CreatePerson()
         {
             return View();
-        }
-        [HttpPost]
-        public IActionResult Create([Bind("Name, Age, Gender, PhoneNumber")]Person person)
-        {
-            if (ModelState.IsValid)
-            {
-                var newPerson = _person.CreatePerson(person);
-
-                if (newPerson != null)
-                {
-                    return RedirectToAction(nameof(Details), "Person", new { id = newPerson.Id });
-                }
-                return NotFound();
-            }
-            return BadRequest();
-        }
-
-        [HttpGet]
-        public IActionResult CreatePerson(int? countryId)
-        {
-            CreatePersonVM cp = new CreatePersonVM();
-
-            if (countryId != null || countryId != 0)
-            {
-            }
-            else
-            {
-                cp.CountryId = (int)countryId;
-            }
-            cp = _person.FindPersonAllCitiesAllCountries(cp);
-
-            return View(cp);
         }
         [HttpPost]
         public IActionResult CreatePerson(CreatePersonVM cp)
         {
             if (ModelState.IsValid)
             {
-                var person = _person.CreatePerson(cp.Person);
+                var person = _person.CreatePerson(cp);
 
                 if (person != null)
                 {
-                    if (cp.City != null || cp.Country != null)
-                    {
-                        person.City = cp.City;
-                        person.City.Country = cp.Country;
-                    }
-                    return RedirectToAction(nameof(Index), "Person", new { id = person.Id });
+                    return RedirectToAction(nameof(Details), "Person", new { id = person.Id });
                 }
+                return View(cp);
             }
             return BadRequest();
         }

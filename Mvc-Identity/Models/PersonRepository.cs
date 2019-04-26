@@ -30,25 +30,45 @@ namespace Mvc_Identity.Models
             return people;
         }
 
-        public Person CreatePerson(Person person)
+        public Person CreatePerson(CreatePersonVM cp)
         {
-            if (string.IsNullOrWhiteSpace(person.Name) ||
-                string.IsNullOrWhiteSpace(person.Gender) ||
-                string.IsNullOrWhiteSpace(person.PhoneNumber))
+            if (string.IsNullOrWhiteSpace(cp.PersonName) ||
+                string.IsNullOrWhiteSpace(cp.PersonGender) ||
+                string.IsNullOrWhiteSpace(cp.PersonPhoneNumber)
+                )
+            {
+                return null;
+            }
+            if (cp.CityId == null || cp.CityId == 0 || cp.PersonAge == null || cp.PersonAge < 0)
             {
                 return null;
             }
 
-            Person newPerson = new Person() { Name = person.Name, Age = person.Age, Gender = person.Gender, PhoneNumber = person.PhoneNumber };
+            var city = _db.Cities
+                .Include(x=>x.Country)
+                .SingleOrDefault(x => x.Id == cp.CityId);
 
-            if (newPerson != null)
+            if (city != null)
             {
-                _db.People.Add(newPerson);
-                _db.SaveChanges();
+                Person person = new Person
+                {
+                    Name = cp.PersonName,
+                    Age = (int)cp.PersonAge,
+                    Gender = cp.PersonGender,
+                    PhoneNumber = cp.PersonPhoneNumber,
+                    City = city,
+                };
 
-                return newPerson;
+                if (person != null)
+                {
+                    _db.People.Add(person);
+
+                    _db.SaveChanges();
+
+                    return person;
+                }
             }
-            return person;
+            return null;
         }
 
         public Person EditPerson(Person person)
@@ -130,30 +150,26 @@ namespace Mvc_Identity.Models
             return null;
         }
 
-        public CreatePersonVM FindPersonAllCitiesAllCountries(CreatePersonVM cp)
-        {
-            //CreatePersonVM cp = new CreatePersonVM();
+        //public CreatePersonVM FindPersonAllCitiesAllCountries(CreatePersonVM cp)
+        //{
+        //    cp.Cities = _db.Cities.Where(x => x.Id == x.Id).ToList();
+        //    cp.Countries = _db.Countries
+        //        .Include(x => x.Cities)
+        //        .Where(x => x.Id == x.Id).ToList();
 
-            cp.Cities = _db.Cities.Where(x => x.Id == x.Id).ToList();
-            cp.Countries = _db.Countries
-                .Include(x => x.Cities)
-                .Where(x => x.Id == x.Id).ToList();
+        //    if (cp.CountryId != 0)
+        //    {
+        //        cp.CitiesInCountry = _db.Cities
+        //            .Include(x => x.Country)
+        //            .Where(x => x.Country.Id == cp.CountryId)
+        //            .ToList();
+        //    }
 
-            if (cp.CountryId != 0)
-            {
-                cp.CitiesInCountry = _db.Cities
-                    .Include(x => x.Country)
-                    .Where(x => x.Country.Id == cp.CountryId)
-                    .ToList();
-            }
-
-
-
-            if (cp.Cities.Count == 0 || cp.Countries.Count == 0)
-            {
-                return null;
-            }
-            return cp;
-        }
+        //    if (cp.Cities.Count == 0 || cp.Countries.Count == 0)
+        //    {
+        //        return null;
+        //    }
+        //    return cp;
+        //}
     }
 }

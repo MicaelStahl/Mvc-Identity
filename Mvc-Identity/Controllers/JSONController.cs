@@ -34,31 +34,18 @@ namespace Mvc_Identity.Controllers
 
             return Json(countries);
         }
-        [HttpGet]
-        public JsonResult GetCities(string country)
+        [HttpPost]
+        public JsonResult GetCities(string countryName)
         {
-            var cities = new List<City>();
-
-            if (!string.IsNullOrWhiteSpace(country))
+            if (!string.IsNullOrWhiteSpace(countryName))
             {
-                //using (var ms = new MemoryStream(Encoding.Unicode.GetBytes(country)))
-                //{
-                //    StreamWriter sw = new StreamWriter(ms);
+                var result = (from Cities in _db.Cities
+                              where Cities.Country.Name == countryName
+                              select Cities).ToList();
 
-                //    DataContractJsonSerializer deserializer = new DataContractJsonSerializer(typeof(JsonDeSerializer));
-                //    JsonDeSerializer jsonDeSerializer = (JsonDeSerializer)deserializer.ReadObject(ms);
-                //    sw.WriteLine("country: " + jsonDeSerializer.Name);
-
-                    cities = _db.Cities
-                        .Include(x => x.Country)
-                        .Include(x=>x.People)
-                        .ThenInclude(x=>x.City)
-                        .Where(x => x.Country.Name.ToLower() == country.ToLower())
-                        .ToList();
-                //}
+                return Json(result);
             }
-
-            return Json(cities);
+            return Json(countryName);
         }
     }
 }

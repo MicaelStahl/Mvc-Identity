@@ -50,7 +50,7 @@ namespace Mvc_Identity.ViewModels
         public string ConfirmPassword { get; set; }
 
         [Required]
-        [Display(Name ="Admin")]
+        [Display(Name = "Admin")]
         public bool Admin { get; set; }
     }
 }

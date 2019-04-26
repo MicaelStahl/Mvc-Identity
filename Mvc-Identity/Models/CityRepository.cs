@@ -136,9 +136,10 @@ namespace Mvc_Identity.Models
                 return null;
             }
 
-            var cityVM = new AddPeopleToCityVM();
-
-            cityVM.City = _db.Cities.SingleOrDefault(x => x.Id == id);
+            var cityVM = new AddPeopleToCityVM
+            {
+                City = _db.Cities.SingleOrDefault(x => x.Id == id)
+            };
 
             var allPeople = _db.People
                 .Include(x=>x.City)
