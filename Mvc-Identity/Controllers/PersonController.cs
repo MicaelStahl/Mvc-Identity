@@ -24,27 +24,6 @@ namespace Mvc_Identity.Controllers
             return View(_person.AllPeople());
         }
 
-        //[HttpGet]
-        //public IActionResult Create()
-        //{
-        //    return View();
-        //}
-        //[HttpPost]
-        //public IActionResult Create([Bind("Name, Age, Gender, PhoneNumber")]Person person)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var newPerson = _person.CreatePerson(person);
-
-        //        if (newPerson != null)
-        //        {
-        //            return RedirectToAction(nameof(Details), "Person", new { id = newPerson.Id });
-        //        }
-        //        return NotFound();
-        //    }
-        //    return BadRequest();
-        //}
-
         [HttpGet]
         public IActionResult CreatePerson()
         {
@@ -83,6 +62,39 @@ namespace Mvc_Identity.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Administrator")]
+        public IActionResult Delete(int? id)
+        {
+            if (id != null || id != 0)
+            {
+                var person = _person.FindPersonWithEverything(id);
+
+                if (person != null)
+                {
+                    return View(person);
+                }
+                return NotFound();
+            }
+            return BadRequest();
+        }
+        [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Administrator")]
+        public IActionResult DeleteConfirmed(int? id)
+        {
+            if (id != null || id != 0)
+            {
+                var boolean = _person.DeletePerson(id);
+
+                if (boolean)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                return NotFound();
+            }
+            return BadRequest();
+        }
+
+        [HttpGet]
         public IActionResult Edit(int? id)
         {
             if (id != null || id != 0)
@@ -113,37 +125,5 @@ namespace Mvc_Identity.Controllers
             return BadRequest();
         }
 
-        [HttpGet]
-        [Authorize(Roles = "Administrator")]
-        public IActionResult Delete(int? id)
-        {
-            if (id != null || id != 0)
-            {
-                var person = _person.FindPerson(id);
-
-                if (person != null)
-                {
-                    return View(person);
-                }
-                return NotFound();
-            }
-            return BadRequest();
-        }
-        [HttpPost, ActionName("Delete")]
-        [Authorize(Roles = "Administrator")]
-        public IActionResult DeleteConfirmed(int? id)
-        {
-            if (id != null || id != 0)
-            {
-                var boolean = _person.DeletePerson(id);
-
-                if (boolean)
-                {
-                    return RedirectToAction(nameof(Index));
-                }
-                return NotFound();
-            }
-            return BadRequest();
-        }
     }
 }
